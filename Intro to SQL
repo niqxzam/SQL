@@ -1,0 +1,133 @@
+nextacademy@nextacademy-VirtualBox:~$ sqlite3 dummy.db
+SQLite version 3.11.0 2016-02-15 17:29:24
+Enter ".help" for usage hints.
+sqlite> CREATE TABLE users (
+   ...> id INTEGER PRIMARY KEY AUTOINCREMENT
+   ...> 
+   ...> 
+   ...> :
+   ...> ;
+Error: unrecognized token: ":"
+sqlite> CREATE TABLE users (
+   ...> id INTEGER PRIMARY KEY AUTOINCREMENT,
+   ...> first_name VARCHAR(64) NOT NULL
+   ...> last_name VARCHAR(64) NOT NULL,
+   ...> email VARCHAR(128) UNIQUE NOT NULL,
+   ...> created_at DATETIME NOT NULL,
+   ...> updated_at DATETIME NOT NULL
+   ...> );
+Error: near "last_name": syntax error
+sqlite> ^C
+sqlite> ^V
+   ...> ;
+Error: unrecognized token: ""
+sqlite> CREATE TABLE users (
+   ...> first_name VARCHAR(64) NOT NULL,
+   ...> last_name VARCHAR(64) NOT NULL,
+   ...> email VARCHAR(128) UNIQUE NOT NULL,
+   ...> created_at DATETIME NOT NULL,
+   ...> updated_at DATETIME NOT NULL
+   ...> );
+sqlite> INSERT INTO users
+   ...> (first_name, last_name, email, created_at, updated_at)
+   ...> VALUES
+   ...> ('Joshua', 'Teng', 'jedicoder@example.com', DATETIME('now'), DATETIME('now'));
+sqlite> SELECT*FROM users;
+Joshua|Teng|jedicoder@example.com|2018-04-09 03:43:19|2018-04-09 03:43:19
+sqlite> select*from users;
+Joshua|Teng|jedicoder@example.com|2018-04-09 03:43:19|2018-04-09 03:43:19
+sqlite> INSERT into users
+   ...> (first_name, last_name, email, created_at, updated_at)
+   ...> VALUES
+   ...> ('Joshua', 'Teng', 'jedicoder@example.com', DATETIME('now'), DATETIME('now'));
+Error: UNIQUE constraint failed: users.email
+sqlite> SELECT*FROM users;
+Joshua|Teng|jedicoder@example.com|2018-04-09 03:43:19|2018-04-09 03:43:19
+sqlite> ALTER users
+   ...> nicknames VARCHAR(64) NOT NULL
+   ...> );
+Error: near "users": syntax error
+sqlite> ALTER users;
+Error: near "users": syntax error
+sqlite> ALTER INTO users
+   ...> nicknames VARCHAR(64) NOT NULL
+   ...> );
+Error: near "INTO": syntax error
+sqlite> ALTER TABLE users
+   ...> nicknames VARCHAR(64) NOT NULL
+   ...> );
+Error: near "nicknames": syntax error
+sqlite> ALTER TABLE users
+   ...> ADD COLUMN nicknames VARCHAR(64) NOT NULL
+   ...> );
+Error: near ")": syntax error
+sqlite> ALTER TABLE users
+   ...> ADD COLUMN nicknames VARCHAR(64) NOT NULL
+   ...> ;
+Error: Cannot add a NOT NULL column with default value NULL
+sqlite> ALTER TABLE users ADD COLUMN nickname VARCHAR(64) NOT NULL
+   ...> ;
+Error: Cannot add a NOT NULL column with default value NULL
+sqlite> ALTER TABLE users ADD COLUMN nickname VARCHAR(64) NOT NULL;
+Error: Cannot add a NOT NULL column with default value NULL
+sqlite> ,schema
+   ...> .
+   ...> ;
+Error: near ",": syntax error
+sqlite> .schema
+CREATE TABLE users (
+first_name VARCHAR(64) NOT NULL,
+last_name VARCHAR(64) NOT NULL,
+email VARCHAR(128) UNIQUE NOT NULL,
+created_at DATETIME NOT NULL,
+updated_at DATETIME NOT NULL
+);
+sqlite> ALTER TABLE users ADD COLUMN nickname VARCHAR(64) DEFAULT "" NOT NULL;sqlite> .schema
+CREATE TABLE users (
+first_name VARCHAR(64) NOT NULL,
+last_name VARCHAR(64) NOT NULL,
+email VARCHAR(128) UNIQUE NOT NULL,
+created_at DATETIME NOT NULL,
+updated_at DATETIME NOT NULL
+, nickname VARCHAR(64) DEFAULT "" NOT NULL);
+sqlite> SELECT*FROM users;
+Joshua|Teng|jedicoder@example.com|2018-04-09 03:43:19|2018-04-09 03:43:19|
+sqlite> UPDATE users nickname=pookiebutt;
+Error: near "nickname": syntax error
+sqlite> UPDATE users nickname='pookiebutt';
+Error: near "nickname": syntax error
+sqlite> UPDATE users nickname='pookiebutt' WHERE name='Joshua';
+Error: near "nickname": syntax error
+sqlite> UPDATE users SET nickname='pookiebutt' WHERE name='Joshua';
+Error: no such column: name
+sqlite> UPDATE users SET nickname='pookiebutt' WHERE first_name='Joshua';
+sqlite> .schema
+CREATE TABLE users (
+first_name VARCHAR(64) NOT NULL,
+last_name VARCHAR(64) NOT NULL,
+email VARCHAR(128) UNIQUE NOT NULL,
+created_at DATETIME NOT NULL,
+updated_at DATETIME NOT NULL
+, nickname VARCHAR(64) DEFAULT "" NOT NULL);
+sqlite> select*from users
+   ...> ;
+Joshua|Teng|jedicoder@example.com|2018-04-09 03:43:19|2018-04-09 03:43:19|pookiebutt
+sqlite> select*from users;
+Joshua|Teng|jedicoder@example.com|2018-04-09 03:43:19|2018-04-09 03:43:19|pookiebutt
+sqlite> INSERT into users
+   ...> (first_name, last_name, email, created_at, updated_at, nickname)
+   ...> VALUES
+   ...> ('Josh', 'Teng', 'jedicoder@example.com', DATETIME('now'), DATETIME('now'), 'Ninja Coder');
+Error: UNIQUE constraint failed: users.email
+sqlite> INSERT OR REPLACE into users VALUES ('Josh', 'Teng', 'jedicoder@example.com', DATETIME('now'), DATETIME('now'), 'Ninja Coder');
+sqlite> .schema
+CREATE TABLE users (
+first_name VARCHAR(64) NOT NULL,
+last_name VARCHAR(64) NOT NULL,
+email VARCHAR(128) UNIQUE NOT NULL,
+created_at DATETIME NOT NULL,
+updated_at DATETIME NOT NULL
+, nickname VARCHAR(64) DEFAULT "" NOT NULL);
+sqlite> select*from users;
+Josh|Teng|jedicoder@example.com|2018-04-09 04:41:48|2018-04-09 04:41:48|Ninja Coder
+sqlite> 
